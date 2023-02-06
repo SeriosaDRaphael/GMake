@@ -20,6 +20,13 @@ function gmake_proj() {
     touch docs/VERSION
     touch docs/LICENSE
     touch docs/ABOUT
+
+    echo -n "Enter project name: "
+    read projname
+    echo -n "Enter author/developer: "
+    read developer
+    echo "$projname" | tee docs/ABOUT >/dev/null
+    echo "$developer" | tee -a docs/ABOUT >/dev/null 
 }
 
 function gmake_new_class() {
@@ -31,11 +38,14 @@ function gmake_new_class() {
     echo "#pragma once" | tee includes/$cname.h >/dev/null
     echo "class $cname {
         public:
-            $cname() {}
+            $cname();
 };" | tee -a includes/$cname.h >/dev/null
 
     echo "#include <iostream> " | tee src/$cname.cpp >/dev/null
     echo "#include \"../includes/$cname.h\"" | tee -a src/$cname.cpp >/dev/null
+    echo "$cname::$cname() {
+
+}" | tee -a src/$cname.cpp >/dev/null
 }
 
 function gmake_run_main() {
